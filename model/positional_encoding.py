@@ -16,7 +16,7 @@ class Solution:
 
         PE = np.zeros((seq_len, d_model))
 
-        PE[:, 0::2] = np.sin(position / div_term)
-        PE[:, 1::2] = np.cos(position / div_term)
+        PE[::, 0::2] = np.sin(position / div_term)
+        PE[::, 1::2] = np.cos(position / div_term)
 
         return np.round(PE, 5)
