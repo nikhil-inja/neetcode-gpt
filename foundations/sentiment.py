@@ -20,5 +20,5 @@ class Solution(nn.Module):
         x = x.mean(dim=1)
         x = self.layer1(x)
         x = self.activation(x)
-        return x
+        return torch.round(x, decimals=4)
         
