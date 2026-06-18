@@ -19,8 +19,8 @@ class Solution:
                 freq[pair] = freq.get(pair, 0) + 1
             
             max_val = max(freq.values())
-            all_maxes = [k for k, v in freq.items() if v == max_val]
-            merge = sorted(all_maxes)[0]
+            # all_maxes = [k for k, v in freq.items() if v == max_val]
+            merge = sorted(p for p, c in freq.items() if c == max_val)[0]
 
             l = 0
             r = 1
