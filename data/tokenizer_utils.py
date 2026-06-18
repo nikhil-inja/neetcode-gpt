@@ -31,24 +31,22 @@ class Solution:
     def _greedy_tokenize(self, text: str, vocab: Dict[str, int]) -> List[str]:
         
         tokens = []
-        i = 0 
+        i = 0
+
         while i < len(text):
             best = None
             for length in range(len(text) - i, 0, -1):
-                substr = text[i:i + length]
+                substr = text[i:i+length]
                 if substr in vocab:
                     best = substr
                     break
+
             if best is None:
                 tokens.append(text[i])
-                i += 1
+                i += 1         
             else:
                 tokens.append(best)
                 i += len(best)
+            
         return tokens
-                
-
-
-
-
 
