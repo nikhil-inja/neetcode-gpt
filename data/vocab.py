@@ -8,11 +8,8 @@ class Solution:
         stoi = {}
         itos = {}
         i = 0
-        unique = set()
-        for c in text:
-            unique.add(c)
-        unique = sorted(list(unique))
-
+        unique = sorted(set(text))
+        
         for i, s in enumerate(unique):
             stoi[s] = i
             itos[i] = s
