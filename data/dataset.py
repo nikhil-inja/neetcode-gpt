@@ -9,14 +9,13 @@ class Solution:
         # 3. For each index i, X = tokens[i:i+context_length], Y = tokens[i+1:i+1+context_length]
         torch.manual_seed(0)
         data = raw_dataset.split()
-        ix = torch.randint(len(data) - context_length, (batch_size,)).tolist()
+        ix = torch.randint(low=0, high=len(data) - context_length, size=(batch_size,)).tolist()
 
         X = []
         Y = []
-        
+
         for i in ix:
             X.append(data[i:i+context_length])
             Y.append(data[i+1:i+context_length+1])
 
-        return (X,Y)
-        
+        return X,Y
