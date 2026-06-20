@@ -44,13 +44,13 @@ class CachedAttention(nn.Module):
         q = self.q_proj(x)
         k = self.k_proj(x)
         v = self.v_proj(x)
-        # d_k = k.shape[-1]
+        d_k = k.shape[-1]
 
         if kv_cache is None:
             kv_cache = KVCache()    
         full_k, full_v = kv_cache.update(k, v)
         
-        raw = (q @ full_k.transpose(-2, -1)) / (full_k.shape[-1] ** 0.5)
+        raw = (q @ full_k.transpose(-2, -1)) / (d_k ** 0.5)
         scores = torch.softmax(raw, dim=-1)
         
         out = torch.round(scores @ full_v, decimals=4)
