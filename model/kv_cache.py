@@ -51,8 +51,7 @@ class CachedAttention(nn.Module):
         full_k, full_v = kv_cache.update(k, v)
         
         raw = (q @ full_k.transpose(-2, -1)) / (full_k.shape[-1] ** 0.5)
-        print(raw)
         scores = torch.softmax(raw, dim=-1)
-        print(scores)
+        
         out = torch.round(scores @ full_v, decimals=4)
         return (out, kv_cache)
