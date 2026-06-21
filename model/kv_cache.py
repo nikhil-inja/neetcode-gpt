@@ -16,12 +16,9 @@ class KVCache:
             self.cache_v = new_v
         
         else:
-            self.cache_k = torch.cat([self.cache_k, new_k], dim=1)
-            self.cache_v = torch.cat([self.cache_v, new_v], dim=1)
+            self.cache_k = torch.cat((self.cache_k, new_k), dim=1)
+            self.cache_v = torch.cat((self.cache_v, new_v), dim=1)
         return (self.cache_k, self.cache_v)
-
-
-        
 
     def clear(self):
         self.cache_k = None
@@ -44,14 +41,13 @@ class CachedAttention(nn.Module):
         q = self.q_proj(x)
         k = self.k_proj(x)
         v = self.v_proj(x)
-        d_k = k.shape[-1]
 
         if kv_cache is None:
             kv_cache = KVCache()    
-        full_k, full_v = kv_cache.update(k, v)
-        
-        raw = (q @ full_k.transpose(-2, -1)) / (d_k ** 0.5)
+        new_k, new_v = kv_cache.update(k, v)
+
+        raw = (q @ new_k.transpose(-2, -1)) / (new_k.shape[-1] ** 0.5)
         scores = torch.softmax(raw, dim=-1)
-        
-        out = torch.round(scores @ full_v, decimals=4)
-        return (out, kv_cache)
+        out = scores @ new_v
+
+        return (torch.round(out, decimals=4), kv_cache)
